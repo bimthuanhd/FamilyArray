@@ -981,6 +981,36 @@ namespace HTAddin
                 Console.WriteLine("Error occurred: " + ex.Message);
             }
         }
+
+        public static XYZ EvaluatePointAtDistance(this Curve curve, double distance)
+        {
+            double totalLength = curve.Length;
+            double paramStart = curve.GetEndParameter(0);
+            double paramEnd = curve.GetEndParameter(1);
+
+            // Nội suy nhị phân (binary search) để tìm parameter ứng với độ dài
+            double low = paramStart;
+            double high = paramEnd;
+            double mid = 0;
+            XYZ pointLow = curve.Evaluate(low, false);
+            XYZ pointHigh = curve.Evaluate(high, false);
+
+            const double tolerance = 0.001; // foot
+
+            while ((high - low) > 1e-6)
+            {
+                mid = (low + high) / 2;
+                XYZ pointMid = curve.Evaluate(mid, false);
+                double currentDist = curve.ComputeDerivatives(mid, false).Origin.DistanceTo(curve.Evaluate(paramStart, false));
+
+                if (currentDist < distance)
+                    low = mid;
+                else
+                    high = mid;
+            }
+
+            return curve.Evaluate(mid, false);
+        }
     }
     public static class ListUtil
     {
@@ -1030,6 +1060,54 @@ namespace HTAddin
         }
     }
 
+    public class CurveSelectionFilter : ISelectionFilter
+    {
+        public bool AllowElement(Element elem)
+        {
+            return elem is CurveElement;
+        }
 
+        public bool AllowReference(Reference reference, XYZ position)
+        {
+            return true;
+        }
+    }
+
+    public static class VectorUtils
+    {
+        /// <summary>
+        /// Calculates the angle from a reference vector (typically X-axis) to a target vector on a given plane.
+        /// The rotation direction is determined by the normal of the plane.
+        /// </summary>
+        /// <param name="fromVector">The starting vector (e.g., XYZ.BasisX, or XYZ.BasisY).</param>
+        /// <param name="toVector">The target vector.</param>
+        /// <param name="planeNormal">The normal vector of the plane on which the angle is measured (e.g., XYZ.BasisZ for XY plane).</param>
+        /// <returns>The angle in radians.</returns>
+        public static double AngleOnPlaneFromXAxis(XYZ fromVector, XYZ toVector, XYZ planeNormal)
+        {
+            // Project vectors onto the plane
+            XYZ projectedFrom = fromVector - fromVector.DotProduct(planeNormal) * planeNormal;
+            XYZ projectedTo = toVector - toVector.DotProduct(planeNormal) * planeNormal;
+
+            // Normalize projected vectors
+            projectedFrom = projectedFrom.Normalize();
+            projectedTo = projectedTo.Normalize();
+
+            // Calculate dot product for the angle magnitude
+            double dot = projectedFrom.DotProduct(projectedTo);
+            // Ensure dot product is within valid range for Acos due to floating point inaccuracies
+            dot = Math.Max(-1.0, Math.Min(1.0, dot));
+            double angle = Math.Acos(dot);
+
+            // Determine the sign of the angle using cross product
+            XYZ cross = projectedFrom.CrossProduct(projectedTo);
+            if (cross.DotProduct(planeNormal) < 0)
+            {
+                angle = -angle;
+            }
+
+            return angle;
+        }
+    }
 
 }

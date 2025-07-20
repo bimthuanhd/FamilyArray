@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         Title ="Family Array"
         Height="400"
-        Width="700" >
+        Width="900" >
     <Window.Resources>
         <ResourceDictionary Source="../ResourceFile/StyleResource.xaml"/>
     </Window.Resources>
@@ -24,10 +24,13 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <DataGrid
+            AutoGenerateColumns="False"
+            RowHeight="25"
             Margin="4 4 4 0"
             ItemsSource="{Binding Curves}" 
             SelectedItem="{Binding SelectedCurve}"
             x:Name="filterDictDataGrid">
+
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
@@ -47,10 +50,10 @@
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Curve Id" Width="220">
+                <DataGridTemplateColumn Header="Curve Type" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="{Binding Curve.ElementId}" Style="{StaticResource btnFrom_ResourceFile}">
+                            <Button Content="{Binding CurveType}" Style="{StaticResource btnFrom_ResourceFile}" Background="Gainsboro">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <i:InvokeCommandAction
@@ -63,7 +66,7 @@
 
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <Button Content="{Binding Curve.ElementId}" Style="{StaticResource btnFrom_ResourceFile}">
+                            <Button Content="{Binding CurveIdString}" Style="{StaticResource btnFrom_ResourceFile}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <i:InvokeCommandAction
@@ -74,13 +77,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Family" Width="220">
+
+                <DataGridTemplateColumn Header="Family" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding FamilyInfor.SelectedFamily.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                        TextTrimming="CharacterEllipsis"
-                                       Padding="4 2 0 0" />     
+                                       Padding="4 2 0 0" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -90,7 +93,7 @@
                                       IsEditable="False"
                                       ItemsSource="{Binding FamilyInfor.Families}"
                                       SelectedItem="{Binding FamilyInfor.SelectedFamily, UpdateSourceTrigger=PropertyChanged}"
-                                      DisplayMemberPath="PropertyLabel">    
+                                      DisplayMemberPath="Name">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
@@ -101,8 +104,105 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-            </DataGrid.Columns>
 
+                <DataGridTemplateColumn Header="Family Symbol" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FamilyInfor.SelectedFamilySymbol.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding FamilyInfor.FamilySymbols}"
+                                      SelectedItem="{Binding FamilyInfor.SelectedFamilySymbol, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Spread Direction" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SelectedArraySpreadDirection.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding ListArraySpreadDirection}"
+                                      SelectedItem="{Binding SelectedArraySpreadDirection, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Flip Direction" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SelectedFipDirection.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding ListFipDirection}"
+                                      SelectedItem="{Binding SelectedFipDirection, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Spacing" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Spacing,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Style="{StaticResource tbFrom_ResourceFile}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Spacing,UpdateSourceTrigger=PropertyChanged}"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 0 8 0">
@@ -132,6 +232,7 @@
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
                             Command="{Binding OkCommand}" 
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
                             />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -141,6 +242,7 @@
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
                             Command="{Binding CancelCommand}" 
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
                             />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

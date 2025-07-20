@@ -13,6 +13,7 @@ using System.Windows.Input;
 using SingleData;
 using FamilyArraying.ViewModel;
 using FamilyArraying.View;
+using System.Windows.Controls;
 
 namespace HTAddin
 {
@@ -24,12 +25,36 @@ namespace HTAddin
         {
             Data.Instance.InitData(commandData);
 
-            var curveRow1 = new CurveModel();
+            try
+            {
+                IList<Reference> pickedRefs = Data.Sel.PickObjects(
+                               ObjectType.Element,
+                               new CurveSelectionFilter(),
+                               "Select Curves (Line, Arc...)"
+                           );
 
-            var viewModel = new FamilyArrayVM();
-            var view = new MainWindow() { DataContext = viewModel };
-            view.ShowDialog();
+                List<Curve> curves = new List<Curve>();
 
+                foreach (Reference reference in pickedRefs)
+                {
+                    Element elem = Data.Doc.GetElement(reference);
+
+                    if (elem is CurveElement curveElem)
+                    {
+                        curves.Add(curveElem.GeometryCurve);
+                    }
+                }
+
+                var viewModel = new FamilyArrayVM(curves);
+                var view = new MainWindow() { DataContext = viewModel };
+                view.ShowDialog();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return Result.Succeeded;
         }
     }
