@@ -72,10 +72,11 @@ namespace FamilyArraying.ViewModel
             return curve.GetEndParameter(1);
         }
 
-        public void ArrayFamilyAlongArc(Document doc, Arc arc, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType)
+        public void ArrayFamilyAlongArc(Document doc, Arc arc, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType, Action onProgress)
         {
             double curveLength = arc.Length;
-            int count = (int)(curveLength / stepLength) + 1;
+            int count = (int)Math.Ceiling(curveLength / stepLength);
+
             List<XYZ> placementPoints = new List<XYZ>();
 
             switch (spreadType)
@@ -142,15 +143,16 @@ namespace FamilyArraying.ViewModel
                 if (crossZ < 0) rotateAngle = -rotateAngle;
                 rotateAngle = isFlip ? rotateAngle + Math.PI : rotateAngle;
                 ElementTransformUtils.RotateElement(Data.Instance.Doc, newInstance.Id, axis, rotateAngle);
+                onProgress?.Invoke();
             }
         }
 
-        public void ArrayFamilyAlongLine(Document doc, Line line, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType)
+        public void ArrayFamilyAlongLine(Document doc, Line line, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType, Action onProgress)
         {
             double lineLength = line.Length;
 
             List<XYZ> placementPoints = new List<XYZ>();
-            int numberOfInstances = (int)Math.Floor(lineLength / stepLength) + 1;
+            int count = (int)Math.Ceiling(lineLength / stepLength);
 
             XYZ lineDirection = (line.GetEndPoint(1) - line.GetEndPoint(0)).Normalize();
 
@@ -163,7 +165,7 @@ namespace FamilyArraying.ViewModel
             switch (spreadType)
             {
                 case ArraySpreadDirection.StartToEnd:
-                    for (int i = 0; i < numberOfInstances; i++)
+                    for (int i = 0; i < count; i++)
                     {
                         double currentLength = i * stepLength;
                         if (currentLength > lineLength + 0.0001)
@@ -175,7 +177,7 @@ namespace FamilyArraying.ViewModel
                     break;
 
                 case ArraySpreadDirection.EndToStart:
-                    for (int i = 0; i < numberOfInstances; i++)
+                    for (int i = 0; i < count; i++)
                     {
                         double currentLength = i * stepLength;
                         if (currentLength >= lineLength + 0.0001)
@@ -191,7 +193,7 @@ namespace FamilyArraying.ViewModel
                     double halfLength = lineLength / 2.0;
                     placementPoints.Add(line.Evaluate(0.5, true)); // Điểm giữa
 
-                    for (int i = 1; i <= numberOfInstances / 2; i++)
+                    for (int i = 1; i <= count / 2; i++)
                     {
                         double offset = i * stepLength;
                         if (offset > halfLength + 0.0001)
@@ -208,7 +210,6 @@ namespace FamilyArraying.ViewModel
                     break;
             }
 
-            List<FamilyInstance> createdInstances = new List<FamilyInstance>();
             foreach (var location in placementPoints)
             {
                 FamilyInstance newInstance = doc.Create.NewFamilyInstance(location, symbol, Data.Instance.Doc.ActiveView, StructuralType.NonStructural);
@@ -217,8 +218,8 @@ namespace FamilyArraying.ViewModel
                 {
                     Line axisLine = Line.CreateBound(location, location + XYZ.BasisZ);
                     ElementTransformUtils.RotateElement(doc, newInstance.Id, axisLine, rotateAngle);
+                    onProgress?.Invoke();
                 }
-                createdInstances.Add(newInstance);
             }
         }
 
@@ -226,39 +227,79 @@ namespace FamilyArraying.ViewModel
         {
             (window as Window).Close();
 
-            using (Transaction trans = new Transaction(Data.Instance.Doc, "Array Family Instances"))
+            try
             {
-                trans.Start();
-
-                try
+                int count = 0;
+                foreach (var curveItem in Curves)
                 {
-                    foreach (var curveItem in Curves)
+                    count += (int)Math.Ceiling(curveItem.Curve.Length / curveItem.Spacing);
+                }
+
+                using (var progressBarView = new ProgressBarView($"Family Array {count}"))
+                {
+                    using (TransactionGroup transactionGroup = new TransactionGroup(Data.Instance.Doc))
                     {
-                        var curve = curveItem.Curve;
-                        var distance = curveItem.Spacing.MmToFeet();
-                        var isFlip = (int)curveItem.SelectedFipDirection.FlipDirection == 1;
-                        var spreadType = curveItem.SelectedArraySpreadDirection.ArraySpreadDirection;
+                        transactionGroup.Start("Family Array");
 
-                        var symbol = curveItem.FamilyInfor.SelectedFamilySymbol;
-                        if (!symbol.IsActive)
-                            symbol.Activate();
+                        progressBarView.Run(Curves, (curveItem) =>
+                        {
+                            using (Transaction transaction = new Transaction(Data.Instance.Doc))
+                            {
+                                transaction.Start("Family Array");
+                                var curve = curveItem.Curve;
+                                var distance = curveItem.Spacing.MmToFeet();
+                                var isFlip = (int)curveItem.SelectedFipDirection.FlipDirection == 1;
+                                var spreadType = curveItem.SelectedArraySpreadDirection.ArraySpreadDirection;
 
-                        if (curve is Arc arc)
-                        {
-                            ArrayFamilyAlongArc(Data.Instance.Doc, arc, symbol, distance, isFlip, spreadType);
-                        }
-                        else if (curve is Line line)
-                        {
-                            ArrayFamilyAlongLine(Data.Instance.Doc, line, symbol, distance, isFlip, spreadType);
-                        }
+                                var symbol = curveItem.FamilyInfor.SelectedFamilySymbol;
+                                if (!symbol.IsActive)
+                                    symbol.Activate();
+
+                                if (curve is Arc arc)
+                                {
+                                    ArrayFamilyAlongArc(Data.Instance.Doc, arc, symbol, distance, isFlip, spreadType, () => progressBarView.Increase());
+                                }
+                                else if (curve is Line line)
+                                {
+                                    ArrayFamilyAlongLine(Data.Instance.Doc, line, symbol, distance, isFlip, spreadType, () => progressBarView.Increase());
+                                }
+
+
+                                transaction.Commit();
+                            }
+                        });
+
+                        if (progressBarView.IsClosed)
+                            transactionGroup.RollBack();
+                        else
+                            transactionGroup.Assimilate();
                     }
                 }
-                catch (Exception e)
-                {
-                    throw;
-                }
 
-                trans.Commit();
+                //foreach (var curveItem in Curves)
+                //{
+                //    var curve = curveItem.Curve;
+                //    var distance = curveItem.Spacing.MmToFeet();
+                //    var isFlip = (int)curveItem.SelectedFipDirection.FlipDirection == 1;
+                //    var spreadType = curveItem.SelectedArraySpreadDirection.ArraySpreadDirection;
+
+                //    var symbol = curveItem.FamilyInfor.SelectedFamilySymbol;
+                //    if (!symbol.IsActive)
+                //        symbol.Activate();
+
+                //    if (curve is Arc arc)
+                //    {
+                //        ArrayFamilyAlongArc(Data.Instance.Doc, arc, symbol, distance, isFlip, spreadType);
+                //    }
+                //    else if (curve is Line line)
+                //    {
+                //        ArrayFamilyAlongLine(Data.Instance.Doc, line, symbol, distance, isFlip, spreadType);
+                //    }
+                //}
+            }
+            catch (Exception e)
+            {
+                throw;
             }
         }
         public void BtnCancelCommand(object window)

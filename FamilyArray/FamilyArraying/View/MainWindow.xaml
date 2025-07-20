@@ -27,6 +27,7 @@
             AutoGenerateColumns="False"
             RowHeight="25"
             Margin="4 4 4 0"
+            SelectionMode="Single"
             ItemsSource="{Binding Curves}" 
             SelectedItem="{Binding SelectedCurve}"
             x:Name="filterDictDataGrid">
