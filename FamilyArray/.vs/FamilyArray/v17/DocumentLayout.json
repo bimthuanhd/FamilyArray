@@ -3,47 +3,51 @@
   "WorkspaceRootPath": "D:\\RV.API\\FamilyArray\\FamilyArray\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\viewmodel\\familyarrayvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\viewmodel\\familyarrayvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\revitcommand\\revitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\revitcommand\\revitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\revitcommand\\revitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\utils\\util.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\util.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\findchildclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\findchildclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\model\\curvemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\model\\curvemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\resourcefile\\styleresource.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\resourcefile\\styleresource.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\util.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\util.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\model\\curvemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\model\\curvemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\resourcefile\\styleresource.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\resourcefile\\styleresource.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\enum\\enum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\enum\\enum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\model\\fipdirectionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\model\\fipdirectionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\model\\fipdirectionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -59,10 +63,6 @@
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\utils\\findchildclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\utils\\findchildclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\single\\model\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\single\\model\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -74,37 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Util.cs",
-              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\Util.cs",
-              "RelativeDocumentMoniker": "FamilyArraying\\Utils\\Util.cs",
-              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\Util.cs",
-              "RelativeToolTip": "FamilyArraying\\Utils\\Util.cs",
-              "ViewState": "AQIAAEkCAAAAAAAAAAAAABMAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-20T03:17:32.047Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RevitCommand.cs",
-              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand.cs",
-              "RelativeDocumentMoniker": "FamilyArraying\\RevitCommand\\RevitCommand.cs",
-              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand.cs",
-              "RelativeToolTip": "FamilyArraying\\RevitCommand\\RevitCommand.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAAB8AAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-20T02:45:45.086Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\View\\MainWindow.xaml",
               "RelativeDocumentMoniker": "FamilyArraying\\View\\MainWindow.xaml",
@@ -116,33 +90,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CurveModel.cs",
-              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\CurveModel.cs",
-              "RelativeDocumentMoniker": "FamilyArraying\\Model\\CurveModel.cs",
-              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\CurveModel.cs",
-              "RelativeToolTip": "FamilyArraying\\Model\\CurveModel.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAuwDAAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T14:18:33.704Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ArraySpreadDirectionModel.cs",
-              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
-              "RelativeDocumentMoniker": "FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
-              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
-              "RelativeToolTip": "FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAwAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T06:20:34.854Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Enum.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Enum\\Enum.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\Enum\\Enum.cs",
@@ -150,12 +98,11 @@
               "RelativeToolTip": "FamilyArraying\\Enum\\Enum.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T06:18:41.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-16T06:18:41.041Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\RelayCommand.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\Utils\\RelayCommand.cs",
@@ -168,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "StyleResource.xaml",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\ResourceFile\\StyleResource.xaml",
               "RelativeDocumentMoniker": "FamilyArraying\\ResourceFile\\StyleResource.xaml",
@@ -193,20 +140,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FamilyArrayVM.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\ViewModel\\FamilyArrayVM.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\ViewModel\\FamilyArrayVM.cs",
               "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\ViewModel\\FamilyArrayVM.cs",
               "RelativeToolTip": "FamilyArraying\\ViewModel\\FamilyArrayVM.cs",
-              "ViewState": "AQIAAD4AAAAAAAAAAAAiwEMAAAAAAAAA",
+              "ViewState": "AQIAAC4BAAAAAAAAAAAAAFsBAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-14T16:08:01.632Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "FamilyModel.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\FamilyModel.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\Model\\FamilyModel.cs",
@@ -214,12 +161,49 @@
               "RelativeToolTip": "FamilyArraying\\Model\\FamilyModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAE0AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T14:33:17.493Z",
+              "WhenOpened": "2025-07-14T14:33:17.493Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FindChildClass.cs",
+              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\FindChildClass.cs",
+              "RelativeDocumentMoniker": "FamilyArraying\\Utils\\FindChildClass.cs",
+              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\FindChildClass.cs",
+              "RelativeToolTip": "FamilyArraying\\Utils\\FindChildClass.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T15:04:08.671Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 2,
+              "Title": "RevitCommand.cs",
+              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand.cs",
+              "RelativeDocumentMoniker": "FamilyArraying\\RevitCommand\\RevitCommand.cs",
+              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand.cs",
+              "RelativeToolTip": "FamilyArraying\\RevitCommand\\RevitCommand.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAowDEAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-20T02:45:45.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ArraySpreadDirectionModel.cs",
+              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
+              "RelativeDocumentMoniker": "FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
+              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
+              "RelativeToolTip": "FamilyArraying\\Model\\ArraySpreadDirectionModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAwAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-16T06:20:34.854Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\View\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\View\\MainWindow.xaml.cs",
@@ -232,7 +216,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
+              "Title": "CurveModel.cs",
+              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\CurveModel.cs",
+              "RelativeDocumentMoniker": "FamilyArraying\\Model\\CurveModel.cs",
+              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\CurveModel.cs",
+              "RelativeToolTip": "FamilyArraying\\Model\\CurveModel.cs",
+              "ViewState": "AQIAABQAAAAAAAAAAAAuwDAAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T14:18:33.704Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Util.cs",
+              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\Util.cs",
+              "RelativeDocumentMoniker": "FamilyArraying\\Utils\\Util.cs",
+              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\Util.cs",
+              "RelativeToolTip": "FamilyArraying\\Utils\\Util.cs",
+              "ViewState": "AQIAAEkCAAAAAAAAAAAAABMAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-20T03:17:32.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "FipDirectionModel.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Model\\FipDirectionModel.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\Model\\FipDirectionModel.cs",
@@ -240,12 +248,11 @@
               "RelativeToolTip": "FamilyArraying\\Model\\FipDirectionModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-20T02:48:36.935Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-20T02:48:36.935Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "packages.config",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\packages.config",
               "RelativeDocumentMoniker": "FamilyArraying\\packages.config",
@@ -266,18 +273,6 @@
               "ViewState": "AQIAAAwAAAAAAAAAAAAAABwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-14T14:45:59.497Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "FindChildClass.cs",
-              "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\FindChildClass.cs",
-              "RelativeDocumentMoniker": "FamilyArraying\\Utils\\FindChildClass.cs",
-              "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\Utils\\FindChildClass.cs",
-              "RelativeToolTip": "FamilyArraying\\Utils\\FindChildClass.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T15:04:08.671Z"
             }
           ]
         }

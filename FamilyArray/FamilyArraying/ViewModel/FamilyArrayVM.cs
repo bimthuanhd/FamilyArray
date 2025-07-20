@@ -19,6 +19,10 @@ using Frame = Autodesk.Revit.DB.Frame;
 using static Autodesk.Revit.DB.SpecTypeId;
 using Autodesk.Revit.UI;
 using System.Reflection.Emit;
+using FamilyArraying.Enum;
+using Autodesk.Revit.UI.Selection;
+using FamilyArraying.View;
+using Reference = Autodesk.Revit.DB.Reference;
 
 namespace FamilyArraying.ViewModel
 {
@@ -47,8 +51,10 @@ namespace FamilyArraying.ViewModel
         }
 
         #region Command
-        public ICommand OkCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
+        public ICommand OkCmd { get; set; }
+        public ICommand CancelCmd { get; set; }
+        public ICommand AddCmd { get; set; }
+        public ICommand DeleteCmd { get; set; }
         #endregion
 
         private double GetParameterAtDistance(Curve curve, double distance)
@@ -66,26 +72,64 @@ namespace FamilyArraying.ViewModel
             return curve.GetEndParameter(1);
         }
 
-        public void ArrayFamilyAlongArc(Document doc, Arc arc, FamilySymbol symbol, double stepLength, bool isFlip)
+        public void ArrayFamilyAlongArc(Document doc, Arc arc, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType)
         {
             double curveLength = arc.Length;
-            int count = (int)(curveLength / stepLength);
+            int count = (int)(curveLength / stepLength) + 1;
             List<XYZ> placementPoints = new List<XYZ>();
-            placementPoints.Add(arc.Evaluate(0.0, true));
 
-            for (int i = 1; i <= count; i++)
+            switch (spreadType)
             {
-                double currentLength = i * stepLength;
-                if (currentLength > curveLength) break;
+                case ArraySpreadDirection.StartToEnd:
+                    placementPoints.Add(arc.Evaluate(0.0, true));
+
+                    for (int i = 1; i <= count; i++)
+                    {
+                        double currentLength = i * stepLength;
+                        if (currentLength > curveLength) break;
 
 
-                double parameter = currentLength / curveLength;
-                if (parameter > 1.0) parameter = 1.0;
+                        double parameter = currentLength / curveLength;
+                        if (parameter > 1.0) parameter = 1.0;
 
-                placementPoints.Add(arc.Evaluate(parameter, true));
+                        placementPoints.Add(arc.Evaluate(parameter, true));
+                    }
+                    break;
+                case ArraySpreadDirection.EndToStart:
+                    placementPoints.Add(arc.Evaluate(1.0, true));
+
+                    for (int i = 1; i < count; i++)
+                    {
+                        double currentLength = i * stepLength;
+                        if (currentLength > curveLength) break;
+
+                        double parameter = 1.0 - (currentLength / curveLength);
+                        if (parameter < 0.0) parameter = 0.0;
+
+                        placementPoints.Add(arc.Evaluate(parameter, true));
+                    }
+                    break;
+                case ArraySpreadDirection.MiddleOutward:
+                    double halfLength = curveLength / 2.0;
+                    placementPoints.Add(arc.Evaluate(0.5, true)); // Điểm giữa cung
+
+                    for (int i = 1; i <= count / 2; i++) // Cặp đối xứng
+                    {
+                        double offset = i * stepLength;
+                        if (offset > halfLength) break;
+
+                        double param1 = (halfLength - offset) / curveLength;
+                        double param2 = (halfLength + offset) / curveLength;
+
+                        if (param1 >= 0.0)
+                            placementPoints.Add(arc.Evaluate(param1, true));
+                        if (param2 <= 1.0)
+                            placementPoints.Add(arc.Evaluate(param2, true));
+                    }
+                    break;
             }
 
-            List<FamilyInstance> createdInstances = new List<FamilyInstance>();
+
             foreach (XYZ pt in placementPoints)
             {
                 FamilyInstance newInstance = Data.Instance.Doc.Create.NewFamilyInstance(pt, symbol, Data.Instance.Doc.ActiveView, StructuralType.NonStructural);
@@ -98,17 +142,15 @@ namespace FamilyArraying.ViewModel
                 if (crossZ < 0) rotateAngle = -rotateAngle;
                 rotateAngle = isFlip ? rotateAngle + Math.PI : rotateAngle;
                 ElementTransformUtils.RotateElement(Data.Instance.Doc, newInstance.Id, axis, rotateAngle);
-
-                createdInstances.Add(newInstance);
             }
         }
 
-        public void ArrayFamilyAlongLine(Document doc, Line line, FamilySymbol symbol, double stepLength, bool isFlip)
+        public void ArrayFamilyAlongLine(Document doc, Line line, FamilySymbol symbol, double stepLength, bool isFlip, ArraySpreadDirection spreadType)
         {
             double lineLength = line.Length;
 
             List<XYZ> placementPoints = new List<XYZ>();
-            int numberOfInstances = (int)Math.Floor(lineLength / stepLength);
+            int numberOfInstances = (int)Math.Floor(lineLength / stepLength) + 1;
 
             XYZ lineDirection = (line.GetEndPoint(1) - line.GetEndPoint(0)).Normalize();
 
@@ -118,16 +160,52 @@ namespace FamilyArraying.ViewModel
             if (crossZ < 0) rotateAngle = -rotateAngle;
             rotateAngle = isFlip ? rotateAngle + Math.PI : rotateAngle;
 
-            for (int i = 0; i <= numberOfInstances; i++)
+            switch (spreadType)
             {
-                double currentLength = i * stepLength;
-                if (currentLength > lineLength + 0.0001)
+                case ArraySpreadDirection.StartToEnd:
+                    for (int i = 0; i < numberOfInstances; i++)
+                    {
+                        double currentLength = i * stepLength;
+                        if (currentLength > lineLength + 0.0001)
+                            break;
+
+                        XYZ pointOnLine = line.Evaluate(currentLength / lineLength, true);
+                        placementPoints.Add(pointOnLine);
+                    }
                     break;
 
-                XYZ pointOnLine = line.Evaluate(currentLength / lineLength, true);
+                case ArraySpreadDirection.EndToStart:
+                    for (int i = 0; i < numberOfInstances; i++)
+                    {
+                        double currentLength = i * stepLength;
+                        if (currentLength >= lineLength + 0.0001)
+                            break;
 
+                        double parameter = 1.0 - (currentLength / lineLength);
+                        XYZ pointOnLine = line.Evaluate(parameter, true);
+                        placementPoints.Add(pointOnLine);
+                    }
+                    break;
 
-                placementPoints.Add(pointOnLine);
+                case ArraySpreadDirection.MiddleOutward:
+                    double halfLength = lineLength / 2.0;
+                    placementPoints.Add(line.Evaluate(0.5, true)); // Điểm giữa
+
+                    for (int i = 1; i <= numberOfInstances / 2; i++)
+                    {
+                        double offset = i * stepLength;
+                        if (offset > halfLength + 0.0001)
+                            break;
+
+                        double param1 = (halfLength - offset) / lineLength;
+                        double param2 = (halfLength + offset) / lineLength;
+
+                        if (param1 >= 0.0)
+                            placementPoints.Add(line.Evaluate(param1, true));
+                        if (param2 <= 1.0)
+                            placementPoints.Add(line.Evaluate(param2, true));
+                    }
+                    break;
             }
 
             List<FamilyInstance> createdInstances = new List<FamilyInstance>();
@@ -159,6 +237,7 @@ namespace FamilyArraying.ViewModel
                         var curve = curveItem.Curve;
                         var distance = curveItem.Spacing.MmToFeet();
                         var isFlip = (int)curveItem.SelectedFipDirection.FlipDirection == 1;
+                        var spreadType = curveItem.SelectedArraySpreadDirection.ArraySpreadDirection;
 
                         var symbol = curveItem.FamilyInfor.SelectedFamilySymbol;
                         if (!symbol.IsActive)
@@ -166,11 +245,11 @@ namespace FamilyArraying.ViewModel
 
                         if (curve is Arc arc)
                         {
-                            ArrayFamilyAlongArc(Data.Instance.Doc, arc, symbol, distance, isFlip);
+                            ArrayFamilyAlongArc(Data.Instance.Doc, arc, symbol, distance, isFlip, spreadType);
                         }
                         else if (curve is Line line)
                         {
-                            ArrayFamilyAlongLine(Data.Instance.Doc, line, symbol, distance, isFlip);
+                            ArrayFamilyAlongLine(Data.Instance.Doc, line, symbol, distance, isFlip, spreadType);
                         }
                     }
                 }
@@ -187,6 +266,89 @@ namespace FamilyArraying.ViewModel
             (window as Window).Close();
         }
 
+        public void AddCommand(object window)
+        {
+            try
+            {
+                (window as Window).Hide();
+                IList<Reference> pickedRefs = Data.Instance.Sel.PickObjects(
+                               ObjectType.Element,
+                               new CurveSelectionFilter(),
+                               "Select more Curves (Line, Arc...)"
+                           );
+
+
+                var existingCurves = new List<Curve>();
+                foreach (Reference reference in pickedRefs)
+                {
+                    Element elem = Data.Instance.Doc.GetElement(reference);
+
+                    if (elem is CurveElement curveElem)
+                    {
+                        if (curveElem.GeometryCurve is Arc newArc)
+                        {
+                            var arcList = Curves.Where(x => x.Curve is Arc).Select(x => x.Curve as Arc).ToList();
+                            bool exists = arcList.Any(arc =>
+                            arc.Center.IsAlmostEqualTo(newArc.Center)
+                            && arc.Radius.Equals(newArc.Radius)
+                            && arc.GetEndPoint(0).IsAlmostEqualTo(newArc.GetEndPoint(0))
+                            && arc.GetEndPoint(1).IsAlmostEqualTo(newArc.GetEndPoint(1)));
+
+                            if (exists)
+                            {
+                                //MessageBox.Show("This curve has been previously selected.", "Family Array", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                existingCurves.Add(newArc);
+                                continue;
+                            }
+                            Curves.Add(new CurveModel(curveElem.GeometryCurve));
+                        }
+                        else if (curveElem.GeometryCurve is Line newLine)
+                        {
+                            var lineList = Curves.Where(x => x.Curve is Line).Select(x => x.Curve as Line).ToList();
+                            bool exists = lineList.Any(line =>
+                            (line.GetEndPoint(0).IsAlmostEqualTo(newLine.GetEndPoint(0)) &&
+                            line.GetEndPoint(1).IsAlmostEqualTo(newLine.GetEndPoint(1)))
+                            ||
+                            (line.GetEndPoint(0).IsAlmostEqualTo(newLine.GetEndPoint(1)) &&
+                            line.GetEndPoint(1).IsAlmostEqualTo(newLine.GetEndPoint(0))));
+
+                            if (exists)
+                            {
+                                existingCurves.Add(newLine);
+                                continue;
+                            }
+                            Curves.Add(new CurveModel(curveElem.GeometryCurve));
+                        }
+                    }
+                }
+
+                if (existingCurves.Count == 1)
+                {
+                    MessageBox.Show($"Has 1 curve previously selected!", "Family Array", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else if (existingCurves.Count > 1)
+                {
+                    MessageBox.Show($"Has {existingCurves.Count} curves previously selected!", "Family Array", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                (window as Window).ShowDialog();
+            }
+        }
+        public void DeleteCommand(object window)
+        {
+            if (SelectedCurve != null)
+            {
+                Curves.Remove(SelectedCurve);
+            }
+            SelectedCurve = Curves.LastOrDefault();
+        }
+
+
         public FamilyArrayVM(List<Curve> listCurve)
         {
             Curves = new ObservableCollection<CurveModel>();
@@ -195,8 +357,10 @@ namespace FamilyArraying.ViewModel
                 Curves.Add(new CurveModel(curve));
             }
 
-            OkCommand = new RelayCommand(BtnOkeCommand);
-            CancelCommand = new RelayCommand(BtnCancelCommand);
+            OkCmd = new RelayCommand(BtnOkeCommand);
+            CancelCmd = new RelayCommand(BtnCancelCommand);
+            AddCmd = new RelayCommand(AddCommand);
+            DeleteCmd = new RelayCommand(DeleteCommand);
         }
 
     }

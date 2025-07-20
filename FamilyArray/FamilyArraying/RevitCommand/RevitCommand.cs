@@ -52,8 +52,6 @@ namespace HTAddin
             }
             catch (Exception)
             {
-
-                throw;
             }
             return Result.Succeeded;
         }
