@@ -9,8 +9,8 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title ="Family Array"
-        Height="400"
-        Width="700" >
+        Height="450"
+        Width="900" >
     <Window.Resources>
         <ResourceDictionary Source="../ResourceFile/StyleResource.xaml"/>
     </Window.Resources>
@@ -23,36 +23,187 @@
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False"
-          CanUserAddRows="False" Margin="10">
+        <DataGrid
+            AutoGenerateColumns="False"
+            RowHeight="25"
+            Margin="4 4 4 0"
+            SelectionMode="Single"
+            ItemsSource="{Binding Curves}" 
+            SelectedItem="{Binding SelectedCurve}"
+            x:Name="filterDictDataGrid">
 
-            <!-- Cột 1: Button -->
-            <DataGridTemplateColumn Header="Action">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Content="Click"
-                        Command="{Binding DataContext.MyButtonCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                        CommandParameter="{Binding}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelectionActive"
+                               Value="False" />
+                                <Condition Property="IsSelected"
+                               Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background"
+                        Value="#0078d7" />
+                            <Setter Property="Foreground"
+                        Value="White" />
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Curve Type" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding CurveType}" Style="{StaticResource btnFrom_ResourceFile}" Background="Gainsboro">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding CancelCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
 
-            <!-- Cột 2: ComboBox (Category) -->
-            <DataGridComboBoxColumn Header="Category"
-                            SelectedItemBinding="{Binding Category, Mode=TwoWay}"
-                            ItemsSource="{Binding DataContext.CategoryOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                            />
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding CurveIdString}" Style="{StaticResource btnFrom_ResourceFile}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding CancelCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
 
-            <!-- Cột 3: ComboBox (Subcategory) -->
-            <DataGridComboBoxColumn Header="SubCategory"
-                            SelectedItemBinding="{Binding SubCategory, Mode=TwoWay}"
-                            ItemsSource="{Binding DataContext.SubCategoryOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                            />
+                <DataGridTemplateColumn Header="Family" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FamilyInfor.SelectedFamily.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
 
-            <!-- Cột 4: TextBox -->
-            <DataGridTextColumn Header="Description"
-                        Binding="{Binding Description, Mode=TwoWay}" />
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding FamilyInfor.Families}"
+                                      SelectedItem="{Binding FamilyInfor.SelectedFamily, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
 
+                <DataGridTemplateColumn Header="Family Symbol" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FamilyInfor.SelectedFamilySymbol.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding FamilyInfor.FamilySymbols}"
+                                      SelectedItem="{Binding FamilyInfor.SelectedFamilySymbol, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Spread Direction" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SelectedArraySpreadDirection.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding ListArraySpreadDirection}"
+                                      SelectedItem="{Binding SelectedArraySpreadDirection, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Flip Direction" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SelectedFipDirection.Name,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Margin="0"
+                                      IsEditable="False"
+                                      ItemsSource="{Binding ListFipDirection}"
+                                      SelectedItem="{Binding SelectedFipDirection, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding PropName_SelectionChangedCmd}"
+                                               CommandParameter="{Binding }" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Spacing" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Spacing,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Style="{StaticResource tbFrom_ResourceFile}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Spacing,UpdateSourceTrigger=PropertyChanged}"
+                                       Padding="4 2 0 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 0 8 0">
@@ -60,8 +211,9 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
-                Command="{Binding OkCommand}" 
-                />
+                            Command="{Binding AddCmd}"       
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
+                            />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
@@ -69,20 +221,21 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
-                Command="{Binding CancelCommand}" 
-                />
+                            Command="{Binding DeleteCmd}" 
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
+                            />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
         </StackPanel>
-
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
             <Button Content="Ok" Style="{StaticResource btnFrom_ResourceFile}" Margin="0 0 8 0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
-                            Command="{Binding OkCommand}" 
+                            Command="{Binding OkCmd}" 
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
                             />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -91,7 +244,8 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction
-                            Command="{Binding CancelCommand}" 
+                            Command="{Binding CancelCmd}" 
+                            CommandParameter="{Binding RelativeSource = {RelativeSource AncestorType=Window}}" 
                             />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

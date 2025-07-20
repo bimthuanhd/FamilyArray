@@ -14,8 +14,8 @@ namespace FamilyArraying.ViewModel
 {
     public class FamilyModel : BaseViewModel
     {
-        public static List<Family> Families;
-        public static List<FamilySymbol> FamilySymbols;
+        public static List<Family> Families { get; set; }
+        public static List<FamilySymbol> FamilySymbols { get; set; }
 
         private Family selectedFamily;
         public Family SelectedFamily
@@ -75,9 +75,13 @@ namespace FamilyArraying.ViewModel
 
         public FamilyModel()
         {
-            if (FamilySymbols == null || FamilySymbols == null)
+            if (Families == null || FamilySymbols == null)
             {
                 InitFamilies();
+            }
+            else
+            {
+                SelectedFamily = Families.FirstOrDefault();
             }
         }
     }
