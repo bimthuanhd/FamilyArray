@@ -18,7 +18,8 @@ using System.Windows.Controls;
 namespace HTAddin
 {
     [Transaction(TransactionMode.Manual)]
-    public class RevitCommand : IExternalCommand
+    [Regeneration(RegenerationOption.Manual)]
+    public class RevitCommand_FamilyArray : IExternalCommand
     {
         private Data Data => Data.Instance;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -46,7 +47,7 @@ namespace HTAddin
                 }
 
                 var viewModel = new FamilyArrayVM(curves);
-                var view = new MainWindow() { DataContext = viewModel };
+                var view = new FamilyArrayView() { DataContext = viewModel };
                 view.ShowDialog();
 
             }

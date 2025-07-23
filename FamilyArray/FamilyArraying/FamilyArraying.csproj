@@ -62,7 +62,8 @@
     <Compile Include="Enum\Enum.cs" />
     <Compile Include="Model\FipDirectionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RevitCommand\RevitCommand.cs" />
+    <Compile Include="RevitCommand\RevitCommand_GroupArray.cs" />
+    <Compile Include="RevitCommand\RevitCommand_FamilyArray.cs" />
     <Compile Include="Single\Model\Data.cs" />
     <Compile Include="Utils\BaseViewModel.cs" />
     <Compile Include="Utils\FindChildClass.cs" />
@@ -70,9 +71,13 @@
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Model\FamilyModel.cs" />
     <Compile Include="Model\CurveModel.cs" />
+    <Compile Include="ViewModel\GroupArrayVM.cs" />
     <Compile Include="ViewModel\FamilyArrayVM.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\GroupArrayView.xaml.cs">
+      <DependentUpon>GroupArrayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FamilyArrayView.xaml.cs">
+      <DependentUpon>FamilyArrayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProgressBarView.xaml.cs">
       <DependentUpon>ProgressBarView.xaml</DependentUpon>
@@ -86,7 +91,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="View\GroupArrayView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FamilyArrayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

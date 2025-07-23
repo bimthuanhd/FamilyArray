@@ -1110,4 +1110,17 @@ namespace HTAddin
         }
     }
 
+    public class GroupSelectionFilter : ISelectionFilter
+    {
+        public bool AllowElement(Element elem)
+        {
+            return elem is Group;
+        }
+
+        public bool AllowReference(Reference reference, XYZ position)
+        {
+            return true;
+        }
+    }
+
 }

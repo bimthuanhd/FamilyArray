@@ -40,6 +40,17 @@ namespace FamilyArraying.ViewModel
             }
         }
 
+        private Group group;
+        public Group Group
+        {
+            get => group;
+            set
+            {
+                group = value;
+                OnPropertyChanged(nameof(group));
+            }
+        }
+
         private double spacing = 2000;
         public double Spacing
         {
