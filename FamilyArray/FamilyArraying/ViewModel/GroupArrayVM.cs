@@ -223,6 +223,190 @@ namespace FamilyArraying.ViewModel
             }
         }
 
+        public void ArrayGroupAlongSpline(Document doc, NurbSpline spline, Group group, double stepLength, bool isFlip, ArraySpreadDirection spreadType, Action onProgress)
+        {
+            double curveLength = spline.ApproximateLength;
+            int count = (int)Math.Ceiling(curveLength / stepLength);
+            List<XYZ> placementPoints = new List<XYZ>();
+
+            switch (spreadType)
+            {
+                case ArraySpreadDirection.StartToEnd:
+
+                    placementPoints = DivideCurveByFixedLength(spline, stepLength);
+
+                    //for (double d = 0; d <= curveLength; d += stepLength)
+                    //{
+                    //    double param = spline.ComputeNormalizedParameter(d);
+                    //    XYZ pt = spline.Evaluate(param, false);
+                    //    placementPoints.Add(pt);
+                    //}
+
+
+                    //for (int i = 0; i < count; i++)
+                    //{
+                    //    double currentLength = i * stepLength;
+                    //    if (currentLength > curveLength) break;
+
+                    //    double param = currentLength / curveLength;
+                    //    param = Math.Min(param, 1.0);
+                    //    placementPoints.Add(spline.Evaluate(param, true));
+                    //}
+                    break;
+
+                case ArraySpreadDirection.EndToStart:
+                    placementPoints = DivideCurveByFixedLengthBackward(spline, stepLength);
+                    break;
+
+                case ArraySpreadDirection.MiddleOutward:
+                    double halfLength = curveLength / 2.0;
+                    placementPoints.Add(spline.Evaluate(0.5, true)); // chính giữa
+
+                    for (int i = 1; i < count / 2 + 1; i++) // đối xứng
+                    {
+                        double offset = i * stepLength;
+                        if (offset > halfLength) break;
+
+                        double param1 = (halfLength - offset) / curveLength;
+                        double param2 = (halfLength + offset) / curveLength;
+
+                        if (param1 >= 0.0)
+                            placementPoints.Add(spline.Evaluate(param1, true));
+                        if (param2 <= 1.0)
+                            placementPoints.Add(spline.Evaluate(param2, true));
+                    }
+                    break;
+            }
+
+            List<XYZ> points = DivideCurveByFixedLengthBackward(spline, stepLength);
+
+            for (int i = 1; i < points.Count; i++)
+            {
+                if (points[i].DistanceTo(points[i - 1]) > 1)
+                {
+                    Util.CreateModelLine(Data.Instance.Doc, points[i - 1], points[i]);
+                }
+            }
+
+            foreach (XYZ pt in placementPoints)
+            {
+                Group placedGroup = doc.Create.PlaceGroup(pt, group.GroupType);
+                if (placedGroup == null) continue;
+
+                var angle = Util.ComputeAngleFromTangent(spline, pt);
+
+                //// Trục quay (dọc Z)
+                Line axis = Line.CreateBound(pt, pt + XYZ.BasisZ);
+                double rotateAngle = isFlip ? -angle : angle;
+
+                ElementTransformUtils.RotateElement(doc, placedGroup.Id, axis, rotateAngle);
+                onProgress?.Invoke();
+            }
+        }
+
+        private List<XYZ> DivideCurveByFixedLength(Curve curve, double segmentLength)
+        {
+            int samples = 1000;
+            List<double> cumulativeLengths = new List<double>();
+            List<double> parameters = new List<double>();
+
+            double totalLength = 0;
+            XYZ prev = curve.Evaluate(0, true);
+            cumulativeLengths.Add(0);
+            parameters.Add(0);
+
+            for (int i = 1; i <= samples; i++)
+            {
+                double t = (double)i / samples;
+                XYZ pt = curve.Evaluate(t, true);
+                totalLength += pt.DistanceTo(prev);
+
+                cumulativeLengths.Add(totalLength);
+                parameters.Add(t);
+                prev = pt;
+            }
+
+            List<XYZ> result = new List<XYZ>();
+            double currentLength = 0;
+
+            while (currentLength <= totalLength)
+            {
+                // tìm parameter tương ứng với currentLength
+                for (int j = 1; j < cumulativeLengths.Count; j++)
+                {
+                    if (cumulativeLengths[j] >= currentLength)
+                    {
+                        double len0 = cumulativeLengths[j - 1];
+                        double len1 = cumulativeLengths[j];
+                        double t0 = parameters[j - 1];
+                        double t1 = parameters[j];
+
+                        double ratio = (currentLength - len0) / (len1 - len0);
+                        double t = t0 + ratio * (t1 - t0);
+
+                        XYZ pt = curve.Evaluate(t, true);
+                        result.Add(pt);
+                        break;
+                    }
+                }
+
+                currentLength += segmentLength;
+            }
+
+            return result;
+        }
+
+        private List<XYZ> DivideCurveByFixedLengthBackward(Curve curve, double segmentLength)
+        {
+            int samples = 1000;
+            List<double> cumulativeLengths = new List<double>();
+            List<double> parameters = new List<double>();
+
+            double totalLength = 0;
+            XYZ prev = curve.Evaluate(0, true);
+            cumulativeLengths.Add(0);
+            parameters.Add(0);
+
+            for (int i = 1; i <= samples; i++)
+            {
+                double t = (double)i / samples;
+                XYZ pt = curve.Evaluate(t, true);
+                totalLength += pt.DistanceTo(prev);
+
+                cumulativeLengths.Add(totalLength);
+                parameters.Add(t);
+                prev = pt;
+            }
+
+            List<XYZ> result = new List<XYZ>();
+            double currentLength = totalLength;
+
+            while (currentLength >= 0)
+            {
+                for (int j = 1; j < cumulativeLengths.Count; j++)
+                {
+                    if (cumulativeLengths[j] >= currentLength)
+                    {
+                        double len0 = cumulativeLengths[j - 1];
+                        double len1 = cumulativeLengths[j];
+                        double t0 = parameters[j - 1];
+                        double t1 = parameters[j];
+
+                        double ratio = (currentLength - len0) / (len1 - len0);
+                        double t = t0 + ratio * (t1 - t0);
+
+                        XYZ pt = curve.Evaluate(t, true);
+                        result.Add(pt);
+                        break;
+                    }
+                }
+
+                currentLength -= segmentLength;
+            }
+
+            return result;
+        }
+
         public void BtnOkeCommand(object window)
         {
             (window as Window).Close();
@@ -259,7 +443,10 @@ namespace FamilyArraying.ViewModel
                                 {
                                     ArrayGroupAlongLine(Data.Instance.Doc, line, curveItem.Group, distance, isFlip, spreadType, () => progressBarView.Increase());
                                 }
-
+                                else if (curve is NurbSpline spline)
+                                {
+                                    ArrayGroupAlongSpline(Data.Instance.Doc, spline, curveItem.Group, distance, isFlip, spreadType, () => progressBarView.Increase());
+                                }
                                 transaction.Commit();
                             }
                         });
