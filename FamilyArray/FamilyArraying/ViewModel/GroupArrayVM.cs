@@ -232,49 +232,13 @@ namespace FamilyArraying.ViewModel
             switch (spreadType)
             {
                 case ArraySpreadDirection.StartToEnd:
-
                     placementPoints = DivideCurveByFixedLength(spline, stepLength);
-
-                    //for (double d = 0; d <= curveLength; d += stepLength)
-                    //{
-                    //    double param = spline.ComputeNormalizedParameter(d);
-                    //    XYZ pt = spline.Evaluate(param, false);
-                    //    placementPoints.Add(pt);
-                    //}
-
-
-                    //for (int i = 0; i < count; i++)
-                    //{
-                    //    double currentLength = i * stepLength;
-                    //    if (currentLength > curveLength) break;
-
-                    //    double param = currentLength / curveLength;
-                    //    param = Math.Min(param, 1.0);
-                    //    placementPoints.Add(spline.Evaluate(param, true));
-                    //}
                     break;
-
                 case ArraySpreadDirection.EndToStart:
                     placementPoints = DivideCurveByFixedLengthBackward(spline, stepLength);
                     break;
-
                 case ArraySpreadDirection.MiddleOutward:
-                    double halfLength = curveLength / 2.0;
-                    placementPoints.Add(spline.Evaluate(0.5, true)); // chính giữa
-
-                    for (int i = 1; i < count / 2 + 1; i++) // đối xứng
-                    {
-                        double offset = i * stepLength;
-                        if (offset > halfLength) break;
-
-                        double param1 = (halfLength - offset) / curveLength;
-                        double param2 = (halfLength + offset) / curveLength;
-
-                        if (param1 >= 0.0)
-                            placementPoints.Add(spline.Evaluate(param1, true));
-                        if (param2 <= 1.0)
-                            placementPoints.Add(spline.Evaluate(param2, true));
-                    }
+                    placementPoints = DivideCurveFromCenterOutward(spline, stepLength);
                     break;
             }
 
@@ -293,11 +257,11 @@ namespace FamilyArraying.ViewModel
                 Group placedGroup = doc.Create.PlaceGroup(pt, group.GroupType);
                 if (placedGroup == null) continue;
 
-                var angle = Util.ComputeAngleFromTangent(spline, pt);
+                var angle = ComputeAngleFromTangent(spline, pt, spreadType);
 
                 //// Trục quay (dọc Z)
                 Line axis = Line.CreateBound(pt, pt + XYZ.BasisZ);
-                double rotateAngle = isFlip ? -angle : angle;
+                double rotateAngle = isFlip ? -Math.PI + angle : angle;
 
                 ElementTransformUtils.RotateElement(doc, placedGroup.Id, axis, rotateAngle);
                 onProgress?.Invoke();
@@ -356,6 +320,77 @@ namespace FamilyArraying.ViewModel
             return result;
         }
 
+        private List<XYZ> DivideCurveFromCenterOutward(Curve curve, double segmentLength)
+        {
+            int samples = 1000;
+            List<double> cumulativeLengths = new List<double>();
+            List<double> parameters = new List<double>();
+
+            double totalLength = 0;
+            XYZ prev = curve.Evaluate(0, true);
+            cumulativeLengths.Add(0);
+            parameters.Add(0);
+
+            for (int i = 1; i <= samples; i++)
+            {
+                double t = (double)i / samples;
+                XYZ pt = curve.Evaluate(t, true);
+                totalLength += pt.DistanceTo(prev);
+
+                cumulativeLengths.Add(totalLength);
+                parameters.Add(t);
+                prev = pt;
+            }
+
+            List<XYZ> result = new List<XYZ>();
+            double centerLength = totalLength / 2;
+
+            int maxSteps = (int)(totalLength / segmentLength) + 1;
+
+            for (int i = 0; i <= maxSteps; i++)
+            {
+                double left = centerLength - i * segmentLength;
+                double right = centerLength + i * segmentLength;
+
+                if (left >= 0)
+                {
+                    XYZ ptLeft = GetPointAtLength(left, cumulativeLengths, parameters, curve);
+                    result.Add(ptLeft);
+                }
+
+                if (right <= totalLength && i != 0) // tránh trùng điểm giữa
+                {
+                    XYZ ptRight = GetPointAtLength(right, cumulativeLengths, parameters, curve);
+                    result.Add(ptRight);
+                }
+            }
+
+            return result;
+        }
+
+        private XYZ GetPointAtLength(double targetLength, List<double> cumLengths, List<double> parameters, Curve curve)
+        {
+            for (int i = 1; i < cumLengths.Count; i++)
+            {
+                if (cumLengths[i] >= targetLength)
+                {
+                    double len0 = cumLengths[i - 1];
+                    double len1 = cumLengths[i];
+                    double t0 = parameters[i - 1];
+                    double t1 = parameters[i];
+
+                    double ratio = (targetLength - len0) / (len1 - len0);
+                    double t = t0 + ratio * (t1 - t0);
+
+                    return curve.Evaluate(t, true);
+                }
+            }
+
+            // fallback, shouldn't happen
+            return curve.Evaluate(1, true);
+        }
+
+
         private List<XYZ> DivideCurveByFixedLengthBackward(Curve curve, double segmentLength)
         {
             int samples = 1000;
@@ -407,6 +442,33 @@ namespace FamilyArraying.ViewModel
             return result;
         }
 
+        public double ComputeAngleFromTangent(Curve curve, XYZ point, ArraySpreadDirection spreadType)
+        {
+            // Chiếu điểm vào curve để lấy parameter gần nhất
+            var projResult = curve.Project(point);
+            if (projResult == null) throw new InvalidOperationException("Cannot project point to curve.");
+
+            double param = projResult.Parameter;
+
+            // Di chuyển tiến lên 1mm dọc theo curve
+            double offset = curve.ApproximateLength * 0.001; // tương đương 1mm
+            if (spreadType == ArraySpreadDirection.EndToStart) offset = -offset;
+            double paramFwd = Math.Min(curve.GetEndParameter(1), param + offset);
+
+            XYZ pFwd = curve.Evaluate(paramFwd, false);
+            XYZ direction = (pFwd - point).Normalize();
+
+            // So sánh với trục X
+            XYZ yAxis = XYZ.BasisX;
+            double angle = direction.AngleTo(yAxis);
+
+            // Xác định chiều xoay
+            XYZ cross = yAxis.CrossProduct(direction);
+            if (cross.Z < 0)
+                angle = -angle;
+
+            return angle;
+        }
         public void BtnOkeCommand(object window)
         {
             (window as Window).Close();

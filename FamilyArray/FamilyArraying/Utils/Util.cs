@@ -1020,33 +1020,6 @@ namespace HTAddin
             return curve.Evaluate(mid, false);
         }
 
-        public static double ComputeAngleFromTangent(Curve curve, XYZ point)
-        {
-            // Chiếu điểm vào curve để lấy parameter gần nhất
-            var projResult = curve.Project(point);
-            if (projResult == null) throw new InvalidOperationException("Cannot project point to curve.");
-
-            double param = projResult.Parameter;
-
-            // Di chuyển tiến lên 1mm dọc theo curve
-            double offset = curve.ApproximateLength * 0.001; // tương đương 1mm
-            double paramFwd = Math.Min(curve.GetEndParameter(1), param + offset);
-
-            XYZ pFwd = curve.Evaluate(paramFwd, false);
-            XYZ direction = (pFwd - point).Normalize();
-
-            // So sánh với trục X
-            XYZ yAxis = XYZ.BasisX;
-            double angle = direction.AngleTo(yAxis);
-
-            // Xác định chiều xoay
-            XYZ cross = yAxis.CrossProduct(direction);
-            if (cross.Z < 0)
-                angle = -angle;
-
-            return angle;
-        }
-
         public static double FindParameterAtDistance(Curve curve, double targetDistance, double tolerance = 0.001)
         {
             double startParam = curve.GetEndParameter(0);
