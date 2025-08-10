@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\RV.API\\FamilyArray\\FamilyArray\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\revitcommand\\revitcommand_setcoordinates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\view\\setcoordinatesview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\view\\setcoordinatesview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\revitcommand\\revitcommand_setcoordinates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\revitcommand\\revitcommand_setcoordinates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|d:\\rv.api\\familyarray\\familyarray\\familyarraying\\viewmodel\\setcoordinatesvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\viewmodel\\setcoordinatesvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\viewmodel\\setcoordinatesvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\view\\setcoordinatesview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|solutionrelative:familyarraying\\view\\setcoordinatesview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A577E294-E1E4-4A84-8E4E-0C8955B4A648}|FamilyArraying\\FamilyArraying.csproj|D:\\RV.API\\FamilyArray\\FamilyArray\\familyarraying\\viewmodel\\grouparrayvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -110,11 +110,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 315,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SetCoordinatesVM.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\ViewModel\\SetCoordinatesVM.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\ViewModel\\SetCoordinatesVM.cs",
@@ -122,18 +122,17 @@
               "RelativeToolTip": "FamilyArraying\\ViewModel\\SetCoordinatesVM.cs",
               "ViewState": "AQIAABYAAAAAAAAAAAAAACEAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-06T14:15:33.363Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-06T14:15:33.363Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "RevitCommand_SetCoordinates.cs",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand_SetCoordinates.cs",
               "RelativeDocumentMoniker": "FamilyArraying\\RevitCommand\\RevitCommand_SetCoordinates.cs",
               "ToolTip": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\RevitCommand\\RevitCommand_SetCoordinates.cs",
               "RelativeToolTip": "FamilyArraying\\RevitCommand\\RevitCommand_SetCoordinates.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAwwEkAAAARAAAA",
+              "ViewState": "AQIAACoAAAAAAAAAAAAwwEMAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-04T16:18:44.421Z",
               "EditorCaption": ""
@@ -148,8 +147,7 @@
               "RelativeToolTip": "FamilyArraying\\RevitCommand\\RevitCommand_GroupArray.cs",
               "ViewState": "AQIAABIAAAAAAAAAAAAAABoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:46:35.471Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-24T14:46:35.471Z"
             },
             {
               "$type": "Document",
@@ -161,12 +159,11 @@
               "RelativeToolTip": "FamilyArraying\\ViewModel\\GroupArrayVM.cs",
               "ViewState": "AQIAAO0BAAAAAAAAAAAAAO0BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:46:36.823Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-24T14:46:36.823Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "SetCoordinatesView.xaml",
               "DocumentMoniker": "D:\\RV.API\\FamilyArray\\FamilyArray\\FamilyArraying\\View\\SetCoordinatesView.xaml",
               "RelativeDocumentMoniker": "FamilyArraying\\View\\SetCoordinatesView.xaml",

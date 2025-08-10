@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title ="Set Coordinates"
-        Height="200"
+        Height="180"
         Width="400" >
     <Window.Resources>
         <ResourceDictionary Source="../ResourceFile/StyleResource.xaml"/>
